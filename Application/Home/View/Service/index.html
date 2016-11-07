@@ -1,0 +1,48 @@
+<!--头部-->
+<include file="Public/Home/top.html"/>
+
+
+
+<div class="banner3"></div>
+
+<div class="container">
+    <div class="wrap">
+        <div class="clear">
+            <div class="cl30"></div>
+            <div class="second_side fl">
+                <div class="side_menu">
+
+                    <h3 class="title clear">服务项目<span>Service</span></h3>
+                    <ul class="side_menu_list">
+                        <volist name=":SidType(4)" id="vo">
+
+                        <li><a href="__APP__/Service/service?lid={$vo.lanmu_id}&up_id={$vo.up_id}">{$vo.name}</a></li>
+
+                    </volist>
+                    </ul>
+                </div>
+            </div>
+            <div class="second_main fr">
+                <div class="se_title">
+                    <h2>
+                        {$serviceName}
+                    </h2>
+                    <div class="breadmenu"><a href="{:U('Index/index')}">首页</a> > <a href="{:U('Service/service')}">服务项目</a> > <a href="">                        {$serviceName}
+                    </a></div>
+                </div>
+                <div class="cont">
+                    <div class="infos">
+                        <p style="text-align: center;"><img alt="" src="__PUBLIC__/Home/images/c9.png" width="438" height="279"></p><br>
+                        <p style="text-indent: 2em;">
+                            {$serviceIntro}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--底部-->
+<include file="Public/Home/foot.html"/>

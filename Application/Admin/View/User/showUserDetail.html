@@ -1,0 +1,101 @@
+<!--头部-->
+<include file="Public/Admin/top.html"/>
+
+    <!--Content-->
+    <div id="content" class="content container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <ol class="breadcrumb">
+                        <li><a href="__APP__/Admin/User/userList">用户管理</a></li>
+                        <li class="active">修改用户信息</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box big-box">
+            <h4 class="zero-m" align="center">修改用户信息</h4>
+            <div class="table-responsive">
+                <form method="post" id="userForm">
+                <table class="table table-bordered">
+                    <volist name="userInfo" id="vo">
+                        <input type="hidden" value="{$vo.u_id}" name="id">
+                        <tr>
+                            <th>账号</th>
+                            <td><input type="text" name="name" value="{$vo.name}" required="required"></td>
+                            <th>密码</th>
+                            <td><input type="password" name="password" id="pwd1" required="required"></td>
+                            <th>确认密码</th>
+                            <td><input type="password" name="password" id="pwd2" required="required"></td>
+                            <th>邮箱</th>
+                            <td><input type="email" name="email" value="{$vo.email}"></td>
+                        </tr>
+                        <tr><td colspan="8" align="center"><input type="submit" value="修改" id="editUser" class="btn btn-primary btn-sm"></td></tr>
+                    </volist>
+                </table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--Footer-->
+<include file="Public/Admin/foot.html"/>
+
+<script type="text/javascript">
+    $(window).ready(function(){
+        $("#userForm").submit(function(){
+            var pwd1= $("#pwd1").val();
+            var pwd2= $("#pwd2").val();
+            if(pwd1!=pwd2){
+                $('body').overhang({
+                    type: 'warn',
+                    message: '两次输入的密码不一致，请重新输入！'
+                });
+                return false;
+            }
+            $dataForm=$(this).serialize();
+            $.ajax({
+                url:"__APP__/Admin/User/editUserInfo",
+                data:$dataForm,
+                type:'post',
+                success:function(msg){
+                    if(msg.status==1){
+                        $('body').overhang({
+                            type: 'success',
+                            message: '修改成功'
+                        });
+                        setTimeout('window.location.href="__APP__/Admin/User/userList"', 1500);
+                    }else{
+                        $('body').overhang({
+                            type: 'warn',
+                            message: '修改失败'
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+
+        $('#logout').click(function(){
+            $.confirm({
+                title: '提示！',
+                content: '确定要退出登录吗？',
+                confirm: function(){
+                    $.ajax({
+                        url:"__APP__/Admin/Index/logout",
+                        data:{},
+                        type:"post",
+                        success:function(){
+                            window.location.href="__APP__/Admin/Index/login";
+                        }
+                    })
+                }
+            })
+        })
+    });
+
+</script>
+</body>
+</html>

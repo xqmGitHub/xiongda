@@ -1,0 +1,124 @@
+<!--头部-->
+<include file="Public/Admin/top.html"/>
+
+    <!--Content-->
+    <div id="content" class="content container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <ol class="breadcrumb">
+                        <li><a href="{:U('Admin/Column/columnList')}">栏目管理</a></li>
+                        <li class="active">栏目列表</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box big-box">
+            <h4 class="zero-m" align="center">栏目列表</h4>
+            <div class="table-responsive">
+                <table class="table table-hover ">
+                    <caption><button class="btn btn-primary" href="__APP__/Admin/Column/showAddColumn">添加栏目</button></caption>
+                    <thead>
+                    <tr>
+                        <th>操作</th>
+                        <th>栏目ID</th>
+                        <th>栏目名称</th>
+                        <th>排序</th>
+                        <th>栏目简介</th>
+                        <th>栏目图片</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <!--顶级分类-->
+                        <volist name="list" id="vo">
+                            <tr>
+                                <td><a class="btn btn-primary btn-sm a" href="{:U('Admin/Column/showAddColumn')}">添加栏目</a> <a class="btn btn-primary btn-sm u" href="__APP__/Admin/Column/showColumnDetail?id={$vo.lanmu_id}">修改</a> <a class="btn btn-primary btn-sm r" href="javascript:void(0)" uid="{$vo.lanmu_id}">删除</a></td>
+                                <td>{$vo.lanmu_id}</td>
+                                <td style="font-weight: bold; font-size: 16px">{$vo.name}</td>
+                                <td>{$vo.paixu}</td>
+                                <td>{$vo.lanmu_jianjie|mb_substr=0,50,'utf-8'}</td>
+                                <td>{$vo.lanmu_pic}</td>
+                            </tr>
+                            <!--子分类-->
+                            <volist name=":SidType($vo['lanmu_id'])" id="vo">
+                                <tr>
+                                    <td>&nbsp;&nbsp;&nbsp;<a class="btn btn-primary" href="__APP__/Admin/Column/showColumnDetail?id={$vo.lanmu_id}">修改</a> <a class="btn btn-primary btn-sm r" href="javascript:void(0)" uid="{$vo.lanmu_id}">删除</a></td>
+                                    <td>{$vo.lanmu_id}</td>
+                                    <td>&nbsp;┗━{$vo.name}</td>
+                                    <td>{$vo.paixu}</td>
+                                    <td><span class="myWidth">{$vo.lanmu_jianjie|mb_substr=0,50,'utf-8'}</span></td>
+                                    <td>{$vo.lanmu_pic}</td>
+                                </tr>
+                            </volist>
+                        </volist>
+                    </tbody>
+                </table>
+                <div class="pagenumber">
+                    {$pageList}
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<include file="Public/Admin/foot.html"/>
+
+<script type="text/javascript">
+    $(window).ready(function(){
+
+        //删除
+        $('.btn.btn-primary.btn-sm.r').click(function(){
+            var mytr= $(this).parent().parent('tr');
+            var id=$(this).attr('uid');
+            $.confirm({
+                title: '提示！',
+                content: '确定要删除这条记录吗？',
+                confirm: function(){
+                    $.ajax({
+                        url:'__APP__/Admin/Column/removeColumn',
+                        data:{"id":id},
+                        type:'post',
+                        success:function(msg){
+                            if(msg.status==1){
+                                mytr.remove();
+                                $('body').overhang({
+                                    type: 'success',
+                                    message: '删除成功'
+                                });
+                            }else {
+                                $('body').overhang({
+                                    type: 'warn',
+                                    message: '删除失败'
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        $('#logout').click(function(){
+            $.confirm({
+                title: '提示！',
+                content: '确定要退出登录吗？',
+                confirm: function(){
+                    $.ajax({
+                        url:"__APP__/Admin/Index/logout",
+                        data:{},
+                        type:"post",
+                        success:function(){
+                            window.location.href="__APP__/Admin/Index/login";
+                        }
+                    })
+                }
+            })
+        })
+    });
+
+</script>
+</body>
+
+</html>

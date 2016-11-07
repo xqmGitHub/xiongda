@@ -1,0 +1,104 @@
+<!--头部-->
+<include file="Public/Admin/top.html"/>
+
+
+    <!--Content-->
+    <div id="content" class="content container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <ol class="breadcrumb">
+                        <li><a href="__APP__/Admin/produts/produtsList">产品管理</a></li>
+                        <li class="active">添加产品</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box big-box">
+            <h4 class="zero-m" align="center">添加产品</h4>
+            <div class="table-responsive">
+                <form method="post" id="produtsForm" enctype="multipart/form-data">
+                <table class="table table-bordered">
+                        <tr>
+                            <th>标题</th>
+                            <td><input type="text" name="title"  required="required"></td>
+                            <th>父ID</th>
+                            <td><input type="text" name="pid"></td>
+                            <th>图片</th>
+                            <td><input type="file" name="pic"></td>
+                        </tr>
+
+                        <tr>
+                            <th>简介</th>
+                            <td colspan="5">
+                                <textarea name="intro" rows="5" style="width: 100%;">{$vo.intro}</textarea>
+                            </td>
+                        </tr>
+                        <tr><td colspan="6" align="center"><input type="submit" value="添加" id="editUser" class="btn btn-primary btn-sm"></td></tr>
+                    </volist>
+                </table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--Footer-->
+
+<include file="Public/Admin/foot.html"/>
+
+<script type="text/javascript">
+    $(window).ready(function(){
+        $("#produtsForm").submit(function(){
+//            $dataForm=$(this).serialize();
+            var formData = new FormData($("#produtsForm")[0]);
+            $.ajax({
+                url:"__APP__/Admin/Produts/addProduts",
+                data:formData,
+                type:'post',
+                /*必须false才会避开jQuery对 formdata 的默认处理XMLHttpRequest会对 formdata 进行正确的处理 */
+                processData: false,
+                /*必须false才会自动加上正确的Content-Type */
+                contentType : false,
+                success:function(msg){
+                    if(msg.status==1){
+                        $('body').overhang({
+                            type: 'success',
+                            message: '添加成功'
+                        });
+                        setTimeout('window.location.href="__APP__/Admin/Produts/produtsList"', 1500);
+                    }else{
+                        $('body').overhang({
+                            type: 'warn',
+                            message: '添加失败'
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+
+
+        $('#logout').click(function(){
+            $.confirm({
+                title: '提示！',
+                content: '确定要退出登录吗？',
+                confirm: function(){
+                    $.ajax({
+                        url:"__APP__/Admin/Index/logout",
+                        data:{},
+                        type:"post",
+                        success:function(){
+                            window.location.href="__APP__/Admin/Index/login";
+                        }
+                    })
+                }
+            })
+        });
+    });
+
+</script>
+</body>
+
+</html>

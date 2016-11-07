@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>后台登录</title>
+
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/css/loginStyle.css" />
+<link rel="shortcut icon" href="__PUBLIC__/Admin/images/xiaologo.png" type="image/x-icon" />
+<link rel="stylesheet" href="__PUBLIC__/css/overhang.min.css">
+<style>
+body{height:100%;background:#333333;overflow:hidden;}
+canvas{z-index:-1;position:absolute;}
+</style>
+
+</head>
+<body>
+    <form action="" name="loginForm" id="loginForm" method="post">
+        <dl class="admin_login">
+             <dt>
+                  <strong>站点后台管理系统</strong>
+                  <em>Management System</em>
+             </dt>
+                 <dd class="user_icon">
+                  <input type="text" placeholder="账号" class="login_txtbx" id="tb_name" name="name" required="required"/>
+             </dd>
+             <dd class="pwd_icon">
+              	<input type="password" placeholder="密码" class="login_txtbx" id="tb_mima" name="password" required="required"/>
+             </dd>
+             <dd class="val_icon">
+                  <div class="checkcode">
+                    <input type="text" name="J_codetext"  id="J_codetext" placeholder="验证码" maxlength="4" class="login_txtbx" required="required"/>
+                    <canvas class="J_codeimg" id="myCanvas" >对不起，您的浏览器不支持canvas，请下载最新版浏览器!</canvas>
+                  </div>
+                 
+             </dd>
+             <dd>
+              	<input type="submit" value="立即登陆" class="submit_btn" id="submit_btn"/>
+             </dd>
+             <dd>
+              <p>© 2015-2016 熊大网络 版权所有</p>
+             </dd>
+        </dl>
+    </form>
+    <script src="__PUBLIC__/Admin/js/jquery.js"></script>
+    <script src="__PUBLIC__/Admin/js/verificationNumbers.js"></script>
+    <script src="__PUBLIC__/Admin/js/Particleground.js"></script>
+    <script src="__PUBLIC__/js/JQueryUI.v1.12.0.min.js"></script>
+    <script src="__PUBLIC__/js/overhang.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //粒子背景特效
+            $('body').particleground({
+                dotColor: '#5cbdaa',
+                lineColor: '#5cbdaa'
+            });
+
+            getCode();
+
+            //加载验证码
+            function getCode(){
+                $.ajax({
+                    url:"__APP__/Admin/Index/getCode",
+                    data:{},
+                    type:"post",
+                    cache:false,
+                    dataType:"json",
+                    success:function(data){
+                        showCheck(data);
+                    }
+                });
+            }
+
+            //点击切换验证码
+            $("#myCanvas").click(function(){
+                getCode();
+            });
+
+            $("#loginForm").submit(function(){
+                var datas=$(this).serialize();
+                $.ajax({
+                    url:"__APP__/Admin/Index/checkLogin",
+                    data:datas,
+                    type:"post",
+                    cache:false,
+                    dataType:"json",
+                    success:function(data){
+                        if(data.status==1){
+                            window.location.href="__APP__/Admin/Index/index"
+                        }else{
+                            if(data.status==0){
+                                getCode();
+                                $("#J_codetext").val('').focus();
+                                $('body').overhang({
+                                    type: 'warn',
+                                    message: '验证码错误'
+                                });
+                                //$("#J_codetext").val('验证码错误');
+                            }else{
+                                $('body').overhang({
+                                    type: 'warn',
+                                    message: '用户名或密码错误'
+                                });
+                                //alert('用户名或密码错误');
+                            }
+                        }
+                    }
+                });
+                return false;
+            });
+
+           /* $("#J_codetext").focus(function(){
+               var codeText = $("#J_codetext").val();
+                if (codeText.trim()=='验证码错误'){
+                    $("#J_codetext").val('');
+                }
+            })*/
+        });
+    </script>
+</body>
+</html>

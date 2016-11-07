@@ -1,0 +1,47 @@
+<!--头部-->
+<include file="Public/Home/top.html"/>
+
+
+
+<div class="banner3"></div>
+
+<div class="container">
+    <div class="wrap">
+        <div class="clear">
+            <div class="cl30"></div>
+            <div class="second_side fl">
+                <div class="side_menu">
+
+                    <h3 class="title clear">关于我们<span>About Us</span></h3>
+                    <ul class="side_menu_list">
+                        <volist name=":SidType(1)" id="vo">
+
+                        <li><a href="__APP__/AboutUs/AboutUs?lid={$vo.lanmu_id}&up_id={$vo.up_id}">{$vo.name}</a></li>
+
+                    </volist>
+                    </ul>
+                </div>
+            </div>
+            <div class="second_main fr">
+                <div class="se_title">
+                    <h2>
+                       {$columnJianjie[0]['name']}
+                    </h2>
+                    <div class="breadmenu"><a href="{:U('Index/index')}">首页</a> > <a href="">关于我们</a> > <a href="#">{$columnName}</a></div>
+                </div>
+                <div class="cont">
+                    <div class="infos">
+                        <p style="text-indent:2em;text-align:left;">
+                            {$columnJianjie[0]['lanmu_jianjie']}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--底部-->
+<include file="Public/Home/foot.html"/>

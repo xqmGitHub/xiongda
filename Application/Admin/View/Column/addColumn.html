@@ -1,0 +1,99 @@
+<!--头部-->
+<include file="Public/Admin/top.html"/>
+
+    <!--Content-->
+    <div id="content" class="content container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <ol class="breadcrumb">
+                        <li><a href="__APP__/Admin/User/userList">用户管理</a></li>
+                        <li class="active">添加栏目</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box big-box">
+            <h4 class="zero-m" align="center">添加栏目</h4>
+            <div class="table-responsive">
+                <form method="post" id="columnForm">
+                <table class="table table-bordered">
+                        <tr>
+                            <th>栏目名称</th>
+                            <td><input type="text" name="name" required="required"></td>
+                            <th>所属栏目</th>
+                            <td>
+                                <select name="up_id">
+                                    <option value="0">不属于任何栏目</option>
+                                    <volist name="columnName" id="vo">
+                                        <option value="{$vo.lanmu_id}">{$vo.name}</option>
+                                    </volist>
+                                </select>
+                            </td>
+                            <th>排序</th>
+                            <td><input type="text" name="paixu" required="required"></td>
+                            <th>栏目简介</th>
+                            <td><input type="text" name="lanmu_jianjie"  ></td>
+                            <th>栏目图片</th>
+                            <td><input type="text" name="lanmu_pic"></td>
+                        </tr>
+                        <tr><td colspan="10" align="center"><input type="submit" value="添加" id="editUser" class="btn btn-primary btn-sm"></td></tr>
+                </table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--Footer-->
+<include file="Public/Admin/foot.html"/>
+
+<script type="text/javascript">
+    $(window).ready(function(){
+        $("#columnForm").submit(function(){
+            $dataForm=$(this).serialize();
+            $.ajax({
+                url:"__APP__/Admin/Column/addColumnInfo",
+                data:$dataForm,
+                type:'post',
+                success:function(msg){
+                    if(msg.status==1){
+                        $('body').overhang({
+                            type: 'success',
+                            message: '添加成功'
+                        });
+                        setTimeout('window.location.href="__APP__/Admin/Column/columnList"', 1500);
+                    }else{
+                        $('body').overhang({
+                            type: 'warn',
+                            message: '添加失败'
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+
+        $('#logout').click(function(){
+            $.confirm({
+                title: '提示！',
+                content: '确定要退出登录吗？',
+                confirm: function(){
+                    $.ajax({
+                        url:"__APP__/Admin/Index/logout",
+                        data:{},
+                        type:"post",
+                        success:function(){
+                            window.location.href="__APP__/Admin/Index/login";
+                        }
+                    })
+                }
+            })
+        })
+    });
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,105 @@
+<!--头部-->
+<include file="Public/Admin/top.html"/>
+
+    <!--Content-->
+    <div id="content" class="content container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <ol class="breadcrumb">
+                        <li><a href="__APP__/Admin/User/userList">广告管理</a></li>
+                        <li class="active">修改广告</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box big-box">
+            <h4 class="zero-m" align="center">修改广告</h4>
+            <div class="table-responsive">
+                <form method="post" id="advertisementForm" enctype="multipart/form-data">
+                <table class="table table-bordered">
+                    <volist name="advertisementInfo" id="vo">
+                        <input type="hidden" value="{$vo.ggao_id}" name="id">
+                        <tr>
+                            <th>标题</th>
+                            <td><input type="text" name="ggao_biaoti" value="{$vo.ggao_biaoti}" required="required"></td>
+                            <th>链接</th>
+                            <td><input type="text" name="ggao_lianjie" value="{$vo.ggao_lianjie}"></td>
+
+                        </tr>
+                        <tr>
+                            <th>图片</th>
+                            <td>
+                                <img src="{:CheckImg($vo['ggao_tupian'])}" alt="图片" width="50px" height="50px">
+                            </td>
+                            <th>修改图片</th>
+                            <td><input type="file" name="ggao_tupian"></td>
+                        </tr>
+                        <tr><td colspan="4" align="center"><input type="submit" value="修改" id="editUser" class="btn btn-primary btn-sm"></td></tr>
+                    </volist>
+                </table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--Footer-->
+
+<include file="Public/Admin/foot.html"/>
+
+<script type="text/javascript">
+    $(window).ready(function(){
+        $("#advertisementForm").submit(function(){
+//            $dataForm=$(this).serialize();
+            var formData = new FormData($("#advertisementForm")[0]);
+            $.ajax({
+                url:"__APP__/Admin/Advertisement/editAdvertisement",
+                data:formData,
+                type:'post',
+                /*必须false才会避开jQuery对 formdata 的默认处理XMLHttpRequest会对 formdata 进行正确的处理 */
+                processData: false,
+                /*必须false才会自动加上正确的Content-Type */
+                contentType : false,
+                success:function(msg){
+                    if(msg.status==1){
+                        $('body').overhang({
+                            type: 'success',
+                            message: '修改成功'
+                        });
+                        setTimeout('window.location.href="__APP__/Admin/Advertisement/advertisementList"', 1500);
+                    }else{
+                        $('body').overhang({
+                            type: 'warn',
+                            message: '修改失败'
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+
+
+        $('#logout').click(function(){
+            $.confirm({
+                title: '提示！',
+                content: '确定要退出登录吗？',
+                confirm: function(){
+                    $.ajax({
+                        url:"__APP__/Admin/Index/logout",
+                        data:{},
+                        type:"post",
+                        success:function(){
+                            window.location.href="__APP__/Admin/Index/login";
+                        }
+                    })
+                }
+            })
+        });
+    });
+
+</script>
+</body>
+
+</html>

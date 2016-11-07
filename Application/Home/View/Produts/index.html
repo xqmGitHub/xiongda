@@ -1,0 +1,65 @@
+<!--头部-->
+<include file="Public/Home/top.html"/>
+
+
+
+<div class="banner3"></div>
+
+<div class="container">
+    <div class="wrap">
+        <div class="clear">
+            <div class="cl30"></div>
+            <div class="second_side fl">
+                <div class="side_menu">
+
+                    <h3 class="title clear">产品展示<span>Produts</span></h3>
+                    <ul class="side_menu_list">
+                        <volist name=":SidType(3)" id="vo">
+
+                        <li><a href="__APP__/Produts/produts?lid={$vo.lanmu_id}&up_id={$vo.up_id}">{$vo.name}</a></li>
+
+                    </volist>
+                    </ul>
+                </div>
+            </div>
+            <div class="second_main fr">
+                <div class="se_title">
+                    <h2>
+                        {$produtTilte}
+                    </h2>
+                    <div class="breadmenu"><a href="{:U('Index/index')}">首页</a> ><a href="{:U('Produts/produts')}">产品展示 </a> > <a href="">{$produtTilte}</a></div>
+                </div>
+                <div class="cont">
+                    <ul class="pic_list clear">
+                        <volist name="produtsList" id="vo">
+                            <li>
+                                <div class="imgbox"><a href="__APP__/Produts/produtDetail?pid={$vo.id}" ><img src="{$vo.pic}" width="222" height="143" alt="产品展示"/></a></div>
+                                <p><a href="" target="_blank">{$vo.title}</a></p>
+                            </li>
+                        </volist>
+
+                        <!--<li>
+                            <div class="imgbox"><a href="" target="_blank"><img src="__PUBLIC__/Home/images/c9.png" width="222" height="143" /></a></div>
+                            <p><a href="" target="_blank">以旧换新双旦特大惊喜</a></p>
+                        </li>
+
+                        <li>
+                            <div class="imgbox"><a href="" target="_blank"><img src="__PUBLIC__/Home/images/c2.jpg" width="222" height="143" /></a></div>
+                            <p><a href="" target="_blank">以旧换新双旦特大惊喜</a></p>
+                        </li>
+
+                        <li class="last">
+                            <div class="imgbox"><a href="" target="_blank"><img src="__PUBLIC__/Home/images/c3.jpg" width="222" height="143" /></a></div>
+                            <p><a href="" target="_blank">以旧换新双旦特大惊喜</a></p>
+                        </li>-->
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--底部-->
+<include file="Public/Home/foot.html"/>

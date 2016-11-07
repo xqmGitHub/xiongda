@@ -1,0 +1,39 @@
+<!--头部-->
+<include file="Public/Admin/top.html"/>
+
+    <!--Content-->
+
+     <div style="width:50%;margin: 0 auto;text-align: center">
+       <img src="__PUBLIC__/admin/images/houtailogo.png" alt="熊大网络">
+     </div>
+
+
+    </div>
+  <!--Footer-->
+<div class="footer">© 2016 熊大网络</div>
+<include file="Public/Admin/foot.html"/>
+
+  <script type="text/javascript">
+    $(window).ready(function(){
+      $('#logout').click(function(){
+          $.confirm({
+              title: '提示！',
+              content: '确定要退出登录吗？',
+              confirm: function(){
+              $.ajax({
+                  url:"__APP__/Admin/Index/logout",
+                  data:{},
+                  type:"post",
+                  success:function(){
+                  window.location.href="__APP__/Admin/Index/login";
+                  }
+              })
+              }
+          })
+      });
+  });
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,224 @@
+﻿<!--头部-->
+<include file="Public/Admin/top.html"/>
+
+    <!--Content-->
+    <div id="content" class="content container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <ol class="breadcrumb">
+                        <li><a href="__APP__/Admin/User/userList">用户管理</a></li>
+                        <li class="active">用户列表</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box big-box">
+            <h4 class="zero-m" align="center">用户列表</h4>
+            <div class="table-responsive" id="ajax_return">
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal begin-->
+<!--添加-->
+<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel1">添加</h4>
+            </div>
+            <form method="post" id="addForm">
+                <div class="modal-body">
+                    <ul>
+                        <li>
+                            <label><span>账号 ：</span></label>
+                            <input type="text" name="name" id="addName" required="required"/>
+                        </li>
+                        <li>
+                            <label><span>密码 ：</span></label>
+                            <input type="password" name="password" id="addPwd1" required="required"/>
+                        </li>
+                        <li>
+                            <label><span>确认密码 ：</span></label>
+                            <input type="password" id="addPwd2" required="required"/>
+                        </li>
+                        <li>
+                            <label><span>邮箱 ：</span></label>
+                            <input type="email" name="email" id="addEmail" required="required"/>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary btn-sm">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--修改-->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel2">编辑</h4>
+            </div>
+            <form method="post" id="editForm">
+            <div class="modal-body">
+                <input type="hidden" name="id" id="id">
+                <ul>
+                    <li>
+                        <label><span>账号 ：</span></label>
+                        <input type="text" name="name" id="name" required="required"/>
+                    </li>
+                    <li>
+                        <label><span>密码 ：</span></label>
+                        <input type="password" name="password" id="pwd1" required="required"/>
+                    </li>
+                    <li>
+                        <label><span>确认密码 ：</span></label>
+                        <input type="password" id="pwd2" required="required"/>
+                    </li>
+                    <li>
+                        <label><span>邮箱 ：</span></label>
+                        <input type="email" name="email" id="email" required="required"/>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-primary btn-sm">保存</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--Modal end-->
+
+<!--Footer-->
+
+<include file="Public/Admin/foot.html"/>
+
+<script type="text/javascript">
+    $(window).ready(function(){
+        ajax_get_table(1);
+
+        $("#pwd2").blur(function(){
+            checkPwd();
+        });
+        $("#addPwd2").blur(function(){
+            checkAddPwd();
+        });
+
+        //添加
+        $("#addForm").submit(function(){
+            $dataForm=$(this).serialize();
+            $.ajax({
+                url:"__APP__/Admin/User/addUser",
+                data:$dataForm,
+                type:'post',
+                success:function(msg){
+                    if(msg.status==1){
+                        ajax_get_table(1);
+//                        clearInput();
+                        $("#name").val("你好呀");
+                        $('body').overhang({
+                            type: 'success',
+                            message: '添加成功'
+                        });
+                        //隐藏模态框。
+                        $('#add').modal('hide');
+                    }else{
+                        $('body').overhang({
+                            type: 'warn',
+                            message: '添加失败'
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+
+
+        $('#add').on('hide.bs.modal', function () {
+            //清空文本框
+//            $('#addForm input').val();
+
+            $(".modal-body input").val('');
+
+        });
+
+        //判断两次输入的密码是否一致
+        function checkPwd(){
+            var pwd1=$("#pwd1").val();
+            var pwd2=$("#pwd2").val();
+            if(pwd1!=pwd2){
+                $('body').overhang({
+                    type: 'warn',
+                    message: '两次输入的密码不一致'
+                });
+                return false;
+            }
+        }
+
+        function checkAddPwd(){
+            var pwd1=$("#addPwd1").val();
+            var pwd2=$("#addPwd2").val();
+            if(pwd1!=pwd2){
+                $('body').overhang({
+                    type: 'warn',
+                    message: '两次输入的密码不一致'
+                });
+                return false;
+            }
+        }
+
+        //退出登录
+        $('#logout').click(function(){
+            $.confirm({
+                title: '提示！',
+                content: '确定要退出登录吗？',
+                confirm: function(){
+                    $.ajax({
+                        url:"__APP__/Admin/Index/logout",
+                        data:{},
+                        type:"post",
+                        success:function(){
+                            window.location.href="__APP__/Admin/Index/login";
+                        }
+                    })
+                 }
+            })
+        })
+    });
+
+    // ajax 抓取页面 form 为表单id  page 为当前第几页
+    function ajax_get_table(page){
+        cur_page = page; //当前页面 保存为全局变量
+        $.ajax({
+            type : "POST",
+            url:"__APP__/Admin/User/ajaxUserList?p="+cur_page,//+tab,
+//            url:"/index.php?m=Admin&c=New&a=ajaxNewsList&p="+page,//+tab,
+            data : {},// 你的formid
+            success: function(data){
+                $("#ajax_return").html('');
+                $("#ajax_return").append(data);
+            }
+        });
+    }
+
+    function clearInput(){
+        $('.modal-body input').val();
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html> <html> <head>
+    <meta charset="UTF-8"> <title>又拍云AJAX上传</title>
+    <!--<script src=" http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>-->
+</head>
+<body>
+
+<form id="formUpload" style="float: left">
+    <input type="hidden" name="policy" id="policy">
+    <input type="hidden" name="signature" id="signature">
+    <input type="file" name="file" id="file">
+</form>
+
+<input type="button" id="but" onclick="formUpload();" value="AJAX上传">
+<input type="text" id="images"> <div id="content"></div> <!-- 用于显示图片 -->
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.11.3.js"></script>
+<script>
+    $(document).ready(function(){
+
+        $.ajax({
+            url:"__APP__/Admin/Upload/createConfig",
+            data:{},
+            type:"json",
+            success:function(data){
+                if(data.status==1){
+                    var policy=data.policy;
+                    var sign=data.sign;
+                    var action=data.action;
+                    $("#policy").val(policy);
+                    $("#signature").val(sign); /*$("#action").val(action); $("#upform").attr('action',action);*/
+                }else {
+                    alert('no');
+                }
+
+            },error:function(){
+                alert('···');
+            }
+        });
+
+    });
+
+    function formUpload(){
+        var formData = new FormData($("#formUpload")[0]);/*Jquery得到是是一个数组 详情看 http://segmentfault.com/q/1010000004213457 */
+       /* var fileData=$("#file").val();
+        var signature=$("#signature").val();
+        var policy=$("#policy").val();*/
+
+        $.ajax({
+            url : 'http://v0.api.upyun.com/wojian', /*文件发送地址 例如  http://v0.api.upyun.com/xxxxxx */
+            type : 'post',
+            data : formData,
+             /*必须false才会避开jQuery对 formdata 的默认处理XMLHttpRequest会对 formdata 进行正确的处理 */
+            processData: false,
+            /*必须false才会自动加上正确的Content-Type */
+            contentType : false,
+            success : function(responseStr) {
+                var obj = $.parseJSON(responseStr);
+                var pic = obj.url;
+                var myurl = " http://wojian.b0.upaiyun.com";
+                /*自己访问域名前缀 例如  http://xxxxxx.b0.upaiyun.com var picurl = "<img src="/"+myurl+pic+"/">"; 这里其实只是用来显示一个 img标签*/
+                $("#images").val(myurl+pic);
+                alert("我是url："+pic);
+
+
+            }, error : function(responseStr) {
+                alert("失败:" + JSON.stringify(responseStr));//将 json对象 转成 json字符串。
+            }
+        });
+    }
+</script>
+</body>
+</html>
+

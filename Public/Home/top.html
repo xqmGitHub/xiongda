@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>熊大网络</title>
+    <link rel="shortcut icon" href="__PUBLIC__/Home/images/xiaologo.png" type="image/x-icon" />
+    <link href="__PUBLIC__/Home/css/css.css" rel="stylesheet" type="text/css" />
+    <link href="__PUBLIC__/Home/css/style3d.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/images/engine/style.css" media="screen" />
+    <script type="text/javascript" src="__PUBLIC__/js/jquery-1.11.3.js"></script>
+    <script src="__PUBLIC__/Home/js/jquery.hDialog.min.js"></script>
+</head>
+
+<body>
+<div class="head">
+    <div class="top">
+        <div class="wrap clear">
+            <div class="logo fl"><a href="__APP__/Index/index">
+                <img src="__PUBLIC__/Home/images/logo.png" width="170" height="70" /></a></div>
+            <div class="infos fr clear">
+                <p class="fl">全国服务热线</p>
+                <p><span>0772-666-666</span></p>
+            </div>
+            <div class="clear"></div>
+            <div class="clear"  id="menu">
+                <ul class="nav_ul">
+                    <li class="nav_li">
+                        <h2><a href="{:U('Index/index')}">首页</a></h2>
+                    </li>
+                    <!--顶级分类-->
+                    <volist name="list" id="columnVo">
+                        <li class="nav_li">
+                            <h2><a href="__APP__/{$columnVo.english}/{$columnVo.english}">{$columnVo.name}</a></h2>
+                            <div class="lists" >
+                                <ul class="list_ul">
+                                    <!--子分类-->
+                                    <volist name=":SidType($columnVo['lanmu_id'])" id="vo">
+                                        <li class="list_li"><a href="__APP__/{$columnVo.english}/{$columnVo.english}?lid={$vo.lanmu_id}">{$vo.name}</a></li>
+                                    </volist>
+                                </ul>
+                            </div>
+                        </li>
+                    </volist>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

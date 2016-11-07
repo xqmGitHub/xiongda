@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+	<title>Site Not Found</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="__PUBLIC__/admin/css/error.css" />
+	<link rel="icon" href="__PUBLIC__/admin/images/xiaologo.png" type="image/x-icon" />
+	<link rel="shortcut icon" href="__PUBLIC__/admin/images/xiaologo.png" type="image/x-icon" />
+</head>
+<body>
+	<div class="page page-missing">
+		<h1>人在囧途，迷路难免</h1>
+		<h3>Site Not Found</h3>
+
+		<p>嗯，这很尴尬。你要找的网站不在这里。</p>
+		<p><small><span id="showtimes"></span>秒后自动跳转到<a href="__APP__/Admin/Index/index">主页</a></small></p>
+		<a href="" class="logo">熊大网络</a>
+	</div>
+	<script type="text/javascript">
+		//设定倒数秒数
+		var t = 10;
+		//显示倒数秒数
+		function showTime(){
+			t -= 1;
+			document.getElementById('showtimes').innerHTML= t;
+			if(t==0){
+				location.href='__APP__/Admin/Index/index';
+			}
+			//每秒执行一次,showTime()
+			setTimeout("showTime()",1000);
+		}
+		//执行showTime()
+		showTime();
+	</script>
+</body>
+</html>

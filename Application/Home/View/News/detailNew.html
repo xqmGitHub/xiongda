@@ -1,0 +1,56 @@
+<!--头部-->
+<include file="Public/Home/top.html"/>
+
+
+
+<div class="banner3"></div>
+
+<div class="container">
+    <div class="wrap">
+        <div class="clear">
+            <div class="cl30"></div>
+            <div class="second_side fl">
+                <div class="side_menu">
+
+                    <h3 class="title clear">新闻动态<span>News</span></h3>
+                    <ul class="side_menu_list">
+                        <volist name=":SidType(2)" id="vo">
+
+                        <li><a href="__APP__/News/news?lanmu_id={$vo.lanmu_id}&up_id={$vo.up_id}">{$vo.name}</a></li>
+
+                    </volist>
+                    </ul>
+                </div>
+            </div>
+            <div class="second_main fr">
+                <div class="se_title">
+                    <h2>
+                       {$columnName[0]['name']}
+                    </h2>
+                    <div class="breadmenu"><a href="{:U('Index/index')}">首页</a> > <a href="{:U('News/news')}">新闻动态</a> > <a href="">{$columnName[0]['name']}</a></div>
+                </div>
+                <div class="cont">
+                    <volist name="newInfo" id="vo">
+                        <div id="newTitle">
+                           {$vo.title}
+                        </div>
+
+                        <div id="tilte2">
+                            <span class="newA">作者：{$vo.pulish_sr}</span>
+                            <span>点击率：{$vo.clicked}</span>
+                            <span>发布时间：{$vo.pulish_time|substr=0,10}</span>
+                        </div>
+                        <div id="newContent">
+                            {$vo.content}
+                        </div>
+                    </volist>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--底部-->
+<include file="Public/Home/foot.html"/>

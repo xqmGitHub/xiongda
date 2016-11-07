@@ -1,0 +1,94 @@
+<!--头部-->
+<include file="Public/Home/top.html"/>
+
+
+
+<div class="banner3"></div>
+
+<div class="container">
+    <div class="wrap">
+        <div class="clear">
+            <div class="cl30"></div>
+            <div class="second_side fl">
+                <div class="side_menu">
+
+                    <h3 class="title clear">在线留言<span>Message</span></h3>
+                    <ul class="side_menu_list">
+                        <volist name="messageData" id="vo">
+                            <li class="clear">
+                                <a href="" class="fl col_3 home_new_a">{$vo.title}</a>
+                                <span class="fr col_4e4e4e">{$vo.createtime|substr=0,10}</span>
+                            </li>
+                    </volist>
+                    </ul>
+                </div>
+            </div>
+            <div class="second_main fr">
+                <div class="se_title">
+                    <h2>
+                        在线留言
+                    </h2>
+                    <div class="breadmenu"><a href="{:U('Index/index')}">首页</a> >在线留言 <a href=""></a></div>
+
+                </div>
+                <div class="cont">
+
+                    <div class="messageBox">
+                        <form id="msg" name="msg" method="post">
+
+                            <p class="messageP">
+                                <span class="messageSpan">标　题：</span>
+                                <input type="text" id="title" name="title" class="messageInp1" required="required"/>
+                            </p>
+
+                            <p class="messageP clear">
+                                <span class="messageSpan2 left">内　容：</span>
+                                <textarea class="messageTextarea left" name="content" id="content" required="required"></textarea>
+                            </p>
+
+                            <p class="messageP">
+                                <span class="messageSpan">联系电话：</span>
+                                <input type="text" class="messageInp1" name="phone" id="phone" required="required"/>
+                            </p>
+
+                            <p class="messageP">
+                                <span class="messageSpan"></span>
+                                <input value="提交" class="messageBtn" type="submit" id="btnMsg"/>
+                                <input type="reset" value="重置" class="messageBtn" id="resetData" />
+                            </p>
+                        </form>
+                    </div>
+                    <script type="text/javascript">
+                        $(window).ready(function(){
+                            $("#msg").submit(function(){
+                                var formData=$(this).serializeArray();
+                                $.ajax({
+                                    url:"__APP__/Message/setMessage",
+                                    data:formData,
+                                    type:"post",
+                                    success:function(msg){
+                                        if(msg.status==1){
+                                            alert('留言成功，非常感谢您的留言。');
+                                            $("#resetData").click();
+
+                                        }else{
+                                            alert('服务器开了个小差，留言失败了，请重新留言');
+                                        }
+                                    },error:function(){
+                                        alert('My God,出错啦');
+                                    }
+                                })
+                                return false;
+                            })
+                        })
+                    </script>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--底部-->
+<include file="Public/Home/foot.html"/>

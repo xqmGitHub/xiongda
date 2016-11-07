@@ -1,0 +1,163 @@
+
+<include file="Public/Home/top.html"/>
+<!--头部-->
+
+<div id="wowslider-container">
+    <div class="ws_images">
+        <ul>
+            <li><a href="#"><img src="__PUBLIC__/Home/images/f1.jpg" /></a></li>
+            <li><a href="#"><img src="__PUBLIC__/Home/images/f2.jpg" /></a></li>
+            <li><a href="#"><img src="__PUBLIC__/Home/images/f3.png" /></a></li>
+
+        </ul>
+    </div>
+
+</div>
+
+
+<script type="text/javascript" src="__PUBLIC__/Home/images/engine/wowslider.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/images/engine/script.js"></script>
+<div class="cl30"></div>
+<div class="container">
+    <div class="wrap">
+        <div class="clear">
+            <div class="news_info fl">
+
+                <div class="hometit"><a target="_blank" href="{:U('AboutUs/aboutUs')}" class="more" style="text-decoration:none;">&nbsp;</a><h3>{$company[0]['name']}</h3></div>
+
+                <div class="homecont">
+                    {$company[0]['lanmu_jianjie']}
+                </div>
+            </div>
+
+            <!-- ---------------幻灯片下面的内容--------------------- -->
+            <div class="home_pics fl">
+
+                <div class="hometit"><a target="_blank" href="{:U('Service/service')}" class="more" style="text-decoration:none;">&nbsp;</a><h3>服务项目</h3></div>
+
+                <div class="scroll_cont clear">
+
+
+                    <volist name="serviceList" id="vo">
+                        <div class="pics <eq name='vo.lanmu_id' value='8'>active<else/></eq>">
+                            <h2>{$vo['id']}</h2>
+                            <div class="pic_box clear" style="display:<eq name ='vo.id' value='1'>block<else/></eq>">
+                                <h3 class="fl">{$vo.title}</h3>
+                                <div class="in fr"><img src="__PUBLIC__/Home/images/c9.png" width="100" height="76" alt="服务项目" /></div>
+                            </div>
+                        </div>
+                    </volist>
+<!--
+                    <div class="pics">
+                        <h2>2</h2>
+                        <div class="pic_box clear">
+                            <h3 class="fl">唯美摄影</h3>
+                            <div class="in fr"><img src="__PUBLIC__/Home/images/c1.jpg" width="100" height="76" /></div>
+                        </div>
+                    </div>
+
+                    <div class="pics">
+                        <h2>3</h2>
+                        <div class="pic_box clear">
+                            <h3 class="fl">视频摄录</h3>
+                            <div class="in fr"><img src="__PUBLIC__/Home/images/c2.jpg" width="100" height="76" /></div>
+                        </div>
+                    </div>
+                    <div class="pics">
+                        <h2>4</h2>
+                        <div class="pic_box clear">
+                            <h3 class="fl">图像美化</h3>
+                            <div class="in fr"><img src="__PUBLIC__/Home/images/c3.jpg" width="100" height="76" /></div>
+                        </div>
+                    </div>-->
+
+                </div>
+            </div>
+            <div class="news_info fr">
+
+                <div class="hometit"><a target="_blank" href="{:U('News/news')}" class="more" style="text-decoration:none"></a><h3>新闻动态</h3></div>
+                <div class="homecont">
+                    <ul class="home_new clear">
+                        <volist name="newsList" id="vo">
+                            <li class="clear">
+                                <a href="__APP__/News/detailNew?nid={$vo.news_id}" target="_parent" class="fl col_3 home_new_a">{$vo.title}</a>
+                                <span class="fr col_4e4e4e">{$vo.pulish_time|substr=0,10}</span>
+                            </li>
+                        </volist>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="introduce">
+            <div class="home_title">
+                <strong class="home_titleStr">产品中心</strong>
+            </div>
+            <!--产品介绍-->
+            <div id="introduceScBox" class="introduceScBox">
+                <span id="introducePrev"><!--上一个--></span>
+                <div class="introduceScDivBox">
+                    <div id="introduceScroll" class="introduceScroll clear">
+
+                        <volist name="produtsList" id="pVo">
+                            <!--每个div只放一张图片-->
+                            <div class="introduceScrollDiv fl">
+                                <div class="introduce_zhezhaoBox">
+                                    <div class="introduce_zhezhao"><!--遮罩--></div>
+
+                                    <a href="__APP__/Produts/produtDetail?pid={$pVo.id}" target="_blank" class="introduce_ckxq">查看详情</a>
+                                </div>
+                                <img src="{$pVo.pic}" width="238" height="179" />
+                            </div>
+                        </volist>
+
+
+                        <!--&lt;!&ndash;每个div只放一张图片&ndash;&gt;
+                        <div class="introduceScrollDiv fl">
+                            <div class="introduce_zhezhaoBox">
+                                <div class="introduce_zhezhao">&lt;!&ndash;遮罩&ndash;&gt;</div>
+
+                                <a href="" class="introduce_ckxq">查看详情</a>
+                            </div>
+                            <img src="__PUBLIC__/Home/images/c1.jpg" width="238" height="179" />
+                        </div>
+                        &lt;!&ndash;每个div只放一张图片&ndash;&gt;
+                        <div class="introduceScrollDiv fl">
+                            <div class="introduce_zhezhaoBox">
+                                <div class="introduce_zhezhao">&lt;!&ndash;遮罩&ndash;&gt;</div>
+
+                                <a href="" class="introduce_ckxq">查看详情</a>
+                            </div>
+                            <img src="__PUBLIC__/Home/images/c4.jpg" width="238" height="179" />
+                        </div>
+                        &lt;!&ndash;每个div只放一张图片&ndash;&gt;
+                        <div class="introduceScrollDiv fl">
+                            <div class="introduce_zhezhaoBox">
+                                <div class="introduce_zhezhao">&lt;!&ndash;遮罩&ndash;&gt;</div>
+
+                                <a href="" class="introduce_ckxq">查看详情</a>
+                            </div>
+                            <img src="__PUBLIC__/Home/images/c2.jpg" width="238" height="179" />
+                        </div>
+                        &lt;!&ndash;每个div只放一张图片&ndash;&gt;
+                        <div class="introduceScrollDiv fl">
+                            <div class="introduce_zhezhaoBox">
+                                <div class="introduce_zhezhao">&lt;!&ndash;遮罩&ndash;&gt;</div>
+
+                                <a href="" class="introduce_ckxq">查看详情</a>
+                            </div>
+                            <img src="__PUBLIC__/Home/images/c3.jpg" width="238" height="179" />
+                        </div>-->
+                    </div>
+                </div>
+                <span id="introduceNext"><!--下一个--></span>
+            </div>
+            <!--产品介绍结束-->
+        </div>
+    </div>
+</div>
+
+
+<!--底部-->
+<include file="Public/Home/foot.html"/>

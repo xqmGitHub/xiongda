@@ -1,0 +1,80 @@
+<!--头部-->
+<include file="Public/Home/top.html"/>
+
+
+
+<div class="banner3"></div>
+
+<div class="container">
+    <div class="wrap">
+        <div class="clear">
+            <div class="cl30"></div>
+            <div class="second_side fl">
+                <div class="side_menu">
+
+                    <h3 class="title clear">新闻动态<span>News</span></h3>
+                    <ul class="side_menu_list">
+                        <volist name=":SidType(2)" id="vo">
+
+                        <li><a href="__APP__/News/news?lid={$vo.lanmu_id}&up_id={$vo.up_id}">{$vo.name}</a></li>
+
+                    </volist>
+                    </ul>
+                </div>
+            </div>
+            <div class="second_main fr"  id="ajax_return">
+               <!-- <div class="se_title">
+                    <h2>
+                       {$columnName}
+                    </h2>
+                    <div class="breadmenu"><a href="{:U('Index/index')}">首页</a> > <a href="{:U('News/news')}">新闻动态</a> > <a href="">{$columnName}</a></div>
+                </div>
+                <div class="cont">-->
+                    <!--<ul class="news_list">
+                        <volist name="newsList" id="vo">
+                            <li><span class="fr">{$vo.pulish_time}</span><a href="__APP__/News/detailNew?nid={$vo.news_id}" >{$vo.title}</a></li>
+                        </volist>
+                    </ul>-->
+                    <!--<div class="pagenumber">
+
+                        <a href="xinwen.php?page=1&lanmu_id=2">首页</a> |
+
+                        <a href="">上一页</a> &lt;!&ndash;显示上一页&ndash;&gt;
+
+                        <a href="">1</a>
+                        <a href="">2</a>
+
+                        <a href="">下一页</a> | <a href="xinwen.php?page=<?php echo $totalPage?>&lanmu_id=2">尾页</a> | 共<?php echo $totalPage?>页 | 当前是第<?php echo $page;?>页
+
+                    </div>-->
+
+                <!--</div>-->
+            </div>
+            <script>
+                $(window).ready(function() {
+
+                    ajax_get_table(0,1);
+                });
+                // ajax 抓取页面 form 为表单id  page 为当前第几页
+                function ajax_get_table(form,page){
+                    cur_page = page; //当前页面 保存为全局变量
+                    $.ajax({
+                        type : "POST",
+                        url:"__APP__/News/ajaxNewList?p="+cur_page,//+tab,
+//            url:"/index.php?m=Admin&c=New&a=ajaxNewsList&p="+page,//+tab,
+                        data : {},// 你的formid
+                        success: function(data){
+                            $("#ajax_return").html('');
+                            $("#ajax_return").append(data);
+                        }
+                    });
+                }
+            </script>
+        </div>
+    </div>
+</div>
+
+
+
+<!--底部-->
+<include file="Public/Home/foot.html"/>

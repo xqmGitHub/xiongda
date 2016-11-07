@@ -1,0 +1,47 @@
+<!--头部-->
+<include file="Public/Home/top.html"/>
+
+
+
+<div class="banner3"></div>
+
+<div class="container">
+    <div class="wrap">
+        <div class="clear">
+            <div class="cl30"></div>
+            <div class="second_side fl">
+                <div class="side_menu">
+
+                    <h3 class="title clear">产品展示<span>Produts</span></h3>
+                    <ul class="side_menu_list">
+                        <volist name=":SidType(3)" id="vo">
+
+                        <li><a href="__APP__/Produts/produts?lid={$vo.lanmu_id}&up_id={$vo.up_id}">{$vo.name}</a></li>
+
+                    </volist>
+                    </ul>
+                </div>
+            </div>
+            <div class="second_main fr">
+                <div class="se_title">
+                    <h2>
+                        {$pName}
+                    </h2>
+                    <div class="breadmenu"><a href="{:U('Index/index')}">首页</a> ><a href="{:U('Produts/produts')}">产品展示 </a> > <a href="">{$pName}</a></div>
+                </div>
+                <div class="cont">
+                    <volist name="produtInfo" id="produtVo">
+                        <p style="text-align: center;"><img alt="" src="{$produtVo.pic}" width="438" height="279"></p><br>
+                        <p style="text-indent: 2em;text-align: center">
+                            {$produtVo.intro}
+                        </p>
+                    </volist>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--底部-->
+<include file="Public/Home/foot.html"/>

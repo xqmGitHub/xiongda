@@ -1,0 +1,102 @@
+<!--头部-->
+<include file="Public/Admin/top.html"/>
+
+    <!--Content-->
+    <div id="content" class="content container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <ol class="breadcrumb">
+                        <li><a href="__APP__/Admin/User/userList">用户管理</a></li>
+                        <li class="active">修改用户信息</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box big-box">
+            <h4 class="zero-m" align="center">修改用户信息</h4>
+            <div class="table-responsive">
+                <form method="post" id="columnForm">
+                <table class="table table-bordered">
+                    <volist name="columnInfo" id="vo">
+                        <input type="hidden" value="{$vo.lanmu_id}" name="id">
+                        <tr>
+                            <th>栏目名称</th>
+                            <td><input type="text" name="name" value="{$vo.name}" required="required"></td>
+                            <th>所属栏目</th>
+                            <td>
+                                <select name="up_id">
+                                    <volist name="columnName" id="cvo">
+                                        <option value="{$cvo.lanmu_id}">{$cvo.name}</option>
+                                    </volist>
+                                    <option value="0">不属于任何栏目</option>
+                                </select>
+                            </td>
+                            <th>排序</th>
+                            <td><input type="text" name="paixu" value="{$vo.paixu}" required="required"></td>
+                            <th>栏目简介</th>
+                            <td><input type="text" name="lanmu_jianjie" value="{$vo.lanmu_jianjie}"></td>
+                            <th>栏目图片</th>
+                            <td><input type="text" name="lanmu_pic" value="{$vo.lanmu_pic}"></td>
+                        </tr>
+                        <tr><td colspan="10" align="center"><input type="submit" value="修改" id="editUser" class="btn btn-primary btn-sm"></td></tr>
+                    </volist>
+                </table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--Footer-->
+<include file="Public/Admin/foot.html"/>
+
+<script type="text/javascript">
+    $(window).ready(function(){
+        $("#columnForm").submit(function(){
+            var dataForm=$(this).serialize();
+            $.ajax({
+                url:"__APP__/Admin/Column/editColumnInfo",
+                data:dataForm,
+                type:'post',
+                success:function(msg){
+                    if(msg.status==1){
+                        $('body').overhang({
+                            type: 'success',
+                            message: '修改成功'
+                        });
+                        setTimeout('window.location.href="__APP__/Admin/Column/columnList"', 1500);
+                    }else{
+                        $('body').overhang({
+                            type: 'warn',
+                            message: '修改失败'
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+
+        $('#logout').click(function(){
+            $.confirm({
+                title: '提示！',
+                content: '确定要退出登录吗？',
+                confirm: function(){
+                    $.ajax({
+                        url:"__APP__/Admin/Index/logout",
+                        data:{},
+                        type:"post",
+                        success:function(){
+                            window.location.href="__APP__/Admin/Index/login";
+                        }
+                    })
+                }
+            })
+        })
+    });
+
+</script>
+</body>
+
+</html>

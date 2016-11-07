@@ -1,0 +1,120 @@
+<!--头部-->
+<include file="Public/Admin/top.html"/>
+
+    <!--Content-->
+    <div id="content" class="content container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <ol class="breadcrumb">
+                        <li><a href="{:U('Admin/New/newList')}">新闻管理</a></li>
+                        <li class="active">新闻列表</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box big-box">
+            <h4 class="zero-m" align="center">新闻列表</h4>
+            <div class="table-responsive">
+                <table class="table table-hover ">
+                    <caption><a class="btn btn-primary" href="__APP__/Admin/New/showAddNew">添加新闻</a></caption>
+                    <thead>
+                    <tr>
+                        <th>操作</th>
+                        <th>标题</th>
+                        <th>发布者</th>
+                        <th>点击率</th>
+                        <th>栏目ID</th>
+                        <th>发布时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <!--顶级分类-->
+                        <volist name="newList" id="vo">
+                            <tr>
+                                <input type="hidden" value="{$vo.news_id}">
+                                <td><a class="btn btn-primary btn-sm u" href="__APP__/Admin/New/showNewDetail?id={$vo.news_id}">修改</a> <a class="btn btn-primary btn-sm r" href="javascript:void(0)" uid="{$vo.news_id}">删除</a></td>
+                                <td>{$vo.title}</td>
+
+                                <td>{$vo.pulish_sr}</td>
+                                <td>{$vo.clicked}</td>
+                                <td>{$vo.lanmu_id}</td>
+                                <td>{$vo.pulish_time}</td>
+                            </tr>
+
+                        </volist>
+                    </tbody>
+                </table>
+                <div class="pagenumber">
+                    {$pageList}
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!--Footer-->
+
+<include file="Public/Admin/foot.html"/>
+
+<script type="text/javascript">
+    $(window).ready(function(){
+
+
+        //删除
+        $('.btn.btn-primary.btn-sm.r').click(function(){
+            var mytr= $(this).parent().parent('tr');
+            var id=$(this).attr('uid');
+            $.confirm({
+                title: '提示！',
+                content: '确定要删除这条记录吗？',
+                confirm: function(){
+                    $.ajax({
+                        url:'__APP__/Admin/New/removeNew',
+                        data:{"id":id},
+                        type:'post',
+                        success:function(msg){
+                            if(msg.status==1){
+                                mytr.remove();
+                                $('body').overhang({
+                                    type: 'success',
+                                    message: '删除成功'
+                                });
+                            }else {
+                                $('body').overhang({
+                                    type: 'warn',
+                                    message: '删除失败'
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        $('#logout').click(function(){
+            $.confirm({
+                title: '提示！',
+                content: '确定要退出登录吗？',
+                confirm: function(){
+                    $.ajax({
+                        url:"__APP__/Admin/Index/logout",
+                        data:{},
+                        type:"post",
+                        success:function(){
+                            window.location.href="__APP__/Admin/Index/login";
+                        }
+                    })
+                }
+            })
+        });
+    });
+
+</script>
+</body>
+
+</html>
