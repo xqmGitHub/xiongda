@@ -28,15 +28,28 @@ class NewController extends Controller{
     }
 
     public function ajaxNewList(){
-        $news=D('news');
-        $per=6;
-        $totle=$news->count();
-        $page_obj=new \Think\AjaxPage($totle,$per);
-        $pageList=$page_obj->show();
-        $newsList= $news->order(array('pulish_time'=>'desc'))->limit($page_obj->firstRow.','.$page_obj->listRows)->select();
-        $this->assign('newList',$newsList);
-        $this->assign('pageList',$pageList);
 
+        S(array('type'=>'memcache','host'=>'localhost','port'=>11211));
+        $new_key=md5("newslist");
+//        S($new_key,null);//清除memcache
+        $info=S($new_key);//读取memcache数据
+        if(empty($info)){
+            //echo "此时走数据库";
+            $news=D('news');
+            $per=6;
+            $totle=$news->count();
+            $page_obj=new \Think\AjaxPage($totle,$per);
+            $pageList=$page_obj->show();
+            $newsList= $news->order(array('pulish_time'=>'desc'))->limit($page_obj->firstRow.','.$page_obj->listRows)->select();
+
+            //把查好的数据放到memcache中
+            $info['newList']=$newsList;
+            $info['pageList']=$pageList;
+            S($new_key,$info);
+        }
+
+        $this->assign('newList',$info['newList']);
+        $this->assign('pageList',$info['pageList']);
         $this->display();
     }
 
